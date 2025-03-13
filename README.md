@@ -6,6 +6,7 @@
 - Record audio
 - Record screen (coming soon)
 - Record startup time
+- Delete extra files
 - Send them to your Telegram bot (coming soon)
 #### 🛑 Don't forget that this tool is only for Windows!
 ####   ‌‌
