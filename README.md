@@ -1,13 +1,7 @@
 # Check_Login_Windows
-```
-A system checker and controller
-Put this program in your Windows startup and you can
-see when your system was turned on and who turned it 
-on.
-The program has a user panel where you can configure
-what happens after system startup.
 
-```
+###### A  controlle Put this program in your Windows startup and you can see when your system was turned on and who turned it on. The program has a user panel where you can configure what happens after system startup.
+
 ### Features of this tool:
 - Record audio
 - Record screen (coming soon)
