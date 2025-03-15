@@ -27,27 +27,25 @@ def Install_Program():
         if "Install.ini" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
             Install = open("C:/LOG_Program_Cactus_Black/Install.ini", "w")
             Install.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
+            Install.close()
         if "License.ini" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
             License = open("C:/LOG_Program_Cactus_Black/License.ini", "w")
             License.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
+            License.close()
         if "TimeLog.Cactus_Black" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
             TimeLog = open("C:/LOG_Program_Cactus_Black/TimeLog.Cactus_Black", "w")
+            TimeLog.close()
         if "ErrorLog.Cactus_Black" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
             ErrorLog = open("C:/LOG_Program_Cactus_Black/ErrorLog.Cactus_Black", "w")
+            ErrorLog.close()
         if "DataBase.Cactus_Black" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
             DataBase = open("C:/LOG_Program_Cactus_Black/DataBase.Cactus_Black", "w")
             DataBase.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
+            DataBase.close()
         if "ScreenRecords" not in os.listdir("C:/LOG_Program_Cactus_Black/"):
-            os.mkdir("C:/LOG_Program_Cactus_Black/AudiuRecords")
+            os.mkdir("C:/LOG_Program_Cactus_Black/ScreenRecords")
         if "AudiuRecords" not in os.listdir("C:/LOG_Program_Cactus_Black/"):
             os.mkdir("C:/LOG_Program_Cactus_Black/AudiuRecords")
-        Install.close()
-        License.close()
-        TimeLog.close()
-        ErrorLog.close()
-        DataBase.close()
-        Install_Program()
-    Install_Program()
 
 Install_Program()
 
@@ -101,10 +99,10 @@ def Load_Data_Setting(ret = "str"):
     elif ret == "List":
         return json.loads(file_Setting.read())
 
-def Record_Sund_and_Screen_File(Time_A ,Time_S):
-    audio_filename = "C:/LOG_Program_Cactus_Black/recorded_audio_"+str(time.strftime( "%Y_%m_%d_T_%H_%M_%S"))+".wav"  # name and path file
+def Record_Sund_and_Screen_File(Time_A ,Time_S, Folder):
+    audio_filename = Folder+"AudiuRecords/recorded_audio_"+str(time.strftime( "%Y_%m_%d_T_%H_%M_%S"))+".wav"  # name and path file
 
-    video_filename = "C:/LOG_Program_Cactus_Black/screen_recording_" + str(time.strftime("%Y_%m_%d_T_%H_%M_%S")) + ".mp4"
+    video_filename = Folder+"ScreenRecords/screen_recording_" + str(time.strftime("%Y_%m_%d_T_%H_%M_%S")) + ".mp4"
     fps = 10.0  # FPS
     resolution = pyautogui.size()
     fourcc = cv2.VideoWriter_fourcc(*"mp4v")
@@ -141,32 +139,44 @@ def Record_Sund_and_Screen_File(Time_A ,Time_S):
     except :
         return "Get Error!!"
 
-def Record_Camera_File():
+import cv2
+import time
+
+def Record_Camera_File(Folder):
     # Open Camera
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     Activ = False
+
     if not cap.isOpened():
-        pass
-    else:
-        # read canera
-        ret, frame = cap.read()
+        return "Error: Could not open camera."
 
-        if ret:
-            # show camera
-            cv2.imshow('Camera', frame)
-            # Save Image
-            cv2.imwrite("C:/LOG_Program_Cactus_Black/Camera_"+str(time.strftime( "%Y_%m_%d_T_%H_%M_%S"))+".jpg", frame)
+    # Try to read a frame from the camera
+    ret, frame = cap.read()
+
+    if ret:
+        # Show camera feed (optional)
+        cv2.imshow('Camera', frame)
+        
+        # Generate a unique filename using the current timestamp
+        filename = Folder+"CameraRecords/Camera_" + str(time.strftime("%Y_%m_%d_T_%H_%M_%S")) + ".jpg"
+        
+        # Save the captured frame as an image file
+        if cv2.imwrite(filename, frame):
             Activ = True
-        else:
-            pass
 
-        # exit the camera
-        cap.release()
-        cv2.destroyAllWindows()
-    if Activ == True :
+        else:
+            print("Error: Could not save the image.")
+    else:
+        print("Error: Could not read frame from camera.")
+
+    # Release the camera and close the window
+    cap.release()
+    cv2.destroyAllWindows()
+
+    if Activ:
         return "No Error :)"
-    else :
-        return "Get Erorr!!!"
+    else:
+        return "Get Error!!!"
 
 def clear_temp():
     E = ""
@@ -216,7 +226,6 @@ Setting =  {
 SystemAdress = "C:/LOG_Program_Cactus_Black"
 Back_FILE_T = ""
 Back_FILE_E = ""
-E = ""
 # Get Back Data Start Windows
 try:
     file = open(Setting["Folder"]["Dir"]+"/TimeLog.Cactus_Black","r")
@@ -236,13 +245,13 @@ W_file = open(Setting["Folder"]["Dir"]+"/TimeLog.Cactus_Black","w")
 W_file.write(Back_FILE_T+"time start Sys is : "+str(time.strftime( "%Y / %m / %d , %H:%M:%S"))+"\n")
 W_file.close()
 # Get Data
-Camera = Record_Camera_File()
-Screen_and_sund  = Record_Sund_and_Screen_File(int(Setting["Audiu"]["TRa"]),int(Setting["screen"]["TRs"]))
+Camera = Record_Camera_File(Setting["Folder"]["Dir"])
+Screen_and_sund  = Record_Sund_and_Screen_File(int(Setting["Audiu"]["TRa"]), int(Setting["screen"]["TRs"]), Setting["Folder"]["Dir"])
 ErrorLog = clear_temp()
 # Save Errors
-Errors = (f"Errors {str(time.strftime( "%Y / %m / %d , %H:%M:%S"))} is : \nErrors Record Camera : {Camera}\nErrors Record Screen & Sund : {Screen_and_sund}\nnErrors Remove Temp Files : {E}")
-W_file = open(SystemAdress+"/ErrorLog.Cactus_Black","r")
-W_file.write(Back_FILE_T+Errors)
+Errors = f"Errors {time.strftime('%Y / %m / %d , %H:%M:%S')} is : \nErrors Record Camera : {Camera}\nErrors Record Screen & Sund : {Screen_and_sund}\nnErrors Remove Temp Files : {ErrorLog}"
+W_file = open(SystemAdress+"/ErrorLog.Cactus_Black","w")
+W_file.write(Back_FILE_E+Errors)
 W_file.close()
 # Show Notife End
 toast = ToastNotifier()
