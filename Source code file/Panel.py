@@ -7,97 +7,6 @@ from tkinter import Tk, Button, Label
 from tkinter.filedialog import askdirectory
 import json
 
-def Install_Program():
-    if "LOG_Program_Cactus_Black" not in os.listdir("C:/") :
-        os.mkdir("C:/LOG_Program_Cactus_Black")
-    else:
-        if "Setting.Cactus_Black" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
-            Load_Data_Setting()
-        if "Install.ini" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
-            Install = open("C:/LOG_Program_Cactus_Black/Install.ini", "w")
-            Install.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
-        if "License.ini" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
-            License = open("C:/LOG_Program_Cactus_Black/License.ini", "w")
-            License.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
-        if "TimeLog.Cactus_Black" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
-            TimeLog = open("C:/LOG_Program_Cactus_Black/TimeLog.Cactus_Black", "w")
-        if "ErrorLog.Cactus_Black" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
-            ErrorLog = open("C:/LOG_Program_Cactus_Black/ErrorLog.Cactus_Black", "w")
-        if "DataBase.Cactus_Black" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
-            DataBase = open("C:/LOG_Program_Cactus_Black/DataBase.Cactus_Black", "w")
-            DataBase.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
-        if "ScreenRecords" not in os.listdir("C:/LOG_Program_Cactus_Black/"):
-            os.mkdir("C:/LOG_Program_Cactus_Black/AudiuRecords")
-        if "AudiuRecords" not in os.listdir("C:/LOG_Program_Cactus_Black/"):
-            os.mkdir("C:/LOG_Program_Cactus_Black/AudiuRecords")
-        Install.close()
-        License.close()
-        TimeLog.close()
-        ErrorLog.close()
-        DataBase.close()
-        Install_Program()
-    Install_Program()
-
-Install_Program()
-
-def get_folder_size(folder_path):
-    total_size = 0
-    for dirpath, dirnames, filenames in os.walk(folder_path):
-        for f in filenames:
-            fp = os.path.join(dirpath, f)
-            total_size += os.path.getsize(fp)
-    return round(total_size / (1024 ** 3), 3)
-
-def select_folder():
-    global Directory_SIZE_NOT_UI,Directory_SIZE
-    folder_selected = askdirectory(initialdir="C:/LOG_Program_Cactus_Black" ,title="Panel Admin - Cactus Black => Set Folder Save Data")
-    if folder_selected:
-        size_gb = get_folder_size(folder_selected)
-        Directory_SIZE_NOT_UI = size_gb
-        Directory_SIZE = str(Directory_SIZE_NOT_UI)+" GB"
-        SIZE_TEXT.set_title("Size Folder Data : "+Directory_SIZE)
-        Set("Folder", "Dir", folder_selected)
-
-Directory_Address = "C:/LOG_Program_Cactus_Black"
-Directory_SIZE_NOT_UI = get_folder_size(Directory_Address)
-Directory_SIZE = str(Directory_SIZE_NOT_UI)+" GB"
-
-text = "Check Login Windows - Panel Admin -> Cactus Black"
-# Initialize Pygame
-pygame.init()
-surface = pygame.display.set_mode((389, 635))
-text = ''.join([chr(Cactus2025) for Cactus2025 in [67, 101, 99, 107, 95, 76,
-32, 103, 105, 110, 95, 87, 105, 110, 100, 111, 119, 115, 32, 45, 32, 80, 97,
- 110, 101, 108, 32, 65, 100, 109, 105, 110, 32, 45, 62, 32, 67, 97, 99, 116,
- 117, 115, 32, 66, 108, 97, 99, 107]])
-pygame.display.set_caption(text)
-
-# Create Menu
-menu = pygame_menu.Menu(
-    title="Control Panel",
-    width=pygame.display.get_window_size()[0],
-    height=pygame.display.get_window_size()[1],
-    theme=themes.THEME_DARK
-)
-# Change UI theme
-themes.THEME_DARK.background_color = (30, 30, 40) # Dark background
-themes.THEME_DARK.title_font_color = (255, 255, 255) # White text for title
-themes.THEME_DARK.widget_font_color = (200, 200, 200) # Light grey text for widgets
-themes.THEME_DARK.selection_color = (100, 150, 200) # Blue colour for selection
-themes.THEME_DARK.border_color = (50, 50, 60) # Dark border
-themes.THEME_DARK.widget_font = pygame_menu.font.FONT_COMIC_NEUE
-themes.THEME_DARK.widget_font_shadow = True
-themes.THEME_DARK.title_font_size = 18
-themes.THEME_DARK.widget_font_size = 20
-themes.THEME_DARK.widget_font_shadow = True
-
-def toggle_input(INPUTS:list):
-    for input_ in INPUTS :
-        if input_.is_visible():
-            input_.hide()
-        else:
-            input_.show()
-
 def Load_Data_Setting(ret = "str"):
     global DefaultSetting
     DefaultSetting = {
@@ -157,6 +66,98 @@ def SetValueToSetting(Root, Name, Value, SettingNow):
     # Update the value
     settings[Root][Name] = Value
     json.dump(settings, file_Setting_New, indent=4)
+
+
+def Install_Program(Folder_ROOT="C:/"):
+    if "LOG_Program_Cactus_Black" not in os.listdir(Folder_ROOT) :
+        os.mkdir(Folder_ROOT+"LOG_Program_Cactus_Black")
+        if "Setting.Cactus_Black" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+            Load_Data_Setting()
+        if "Install.ini" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+            Install = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"Install.ini", "w")
+            Install.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
+            Install.close()
+        if "License.ini" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+            License = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"License.ini", "w")
+            License.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
+            License.close()
+        if "TimeLog.Cactus_Black" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+            TimeLog = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"TimeLog.Cactus_Black", "w")
+            TimeLog.close()
+        if "ErrorLog.Cactus_Black" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+            ErrorLog = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"ErrorLog.Cactus_Black", "w")
+            ErrorLog.close()
+        if "DataBase.Cactus_Black" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+            DataBase = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"DataBase.Cactus_Black", "w")
+            DataBase.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
+            DataBase.close()
+        if "ScreenRecords" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+            os.mkdir(Folder_ROOT+"LOG_Program_Cactus_Black/"+"ScreenRecords")
+        if "AudiuRecords" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+            os.mkdir(Folder_ROOT+"LOG_Program_Cactus_Black/"+"AudiuRecords")
+        if "CameraRecords" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+            os.mkdir(Folder_ROOT+"LOG_Program_Cactus_Black/"+"CameraRecords")
+
+Install_Program()
+
+def get_folder_size(folder_path):
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk(folder_path):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            total_size += os.path.getsize(fp)
+    return round(total_size / (1024 ** 3), 3)
+
+def select_folder():
+    global Directory_SIZE_NOT_UI,Directory_SIZE
+    folder_selected = askdirectory(initialdir="C:/LOG_Program_Cactus_Black" ,title="Panel Admin - Cactus Black => Set Folder Save Data")
+    if folder_selected:
+        Install_Program(folder_selected+"/")
+        size_gb = get_folder_size(folder_selected+"/LOG_Program_Cactus_Black")
+        Directory_SIZE_NOT_UI = size_gb
+        Directory_SIZE = str(Directory_SIZE_NOT_UI)+" GB"
+        SIZE_TEXT.set_title("Size Folder Data : "+Directory_SIZE)
+        Set("Folder", "Dir", folder_selected+"/LOG_Program_Cactus_Black")
+
+Directory_Address = "C:/LOG_Program_Cactus_Black"
+Directory_SIZE_NOT_UI = get_folder_size(Directory_Address)
+Directory_SIZE = str(Directory_SIZE_NOT_UI)+" GB"
+
+text = "Check Login Windows - Panel Admin -> Cactus Black"
+# Initialize Pygame
+pygame.init()
+surface = pygame.display.set_mode((389, 635))
+text = ''.join([chr(Cactus2025) for Cactus2025 in [67, 101, 99, 107, 95, 76,
+32, 103, 105, 110, 95, 87, 105, 110, 100, 111, 119, 115, 32, 45, 32, 80, 97,
+ 110, 101, 108, 32, 65, 100, 109, 105, 110, 32, 45, 62, 32, 67, 97, 99, 116,
+ 117, 115, 32, 66, 108, 97, 99, 107]])
+pygame.display.set_caption(text)
+
+# Create Menu
+menu = pygame_menu.Menu(
+    title="Control Panel",
+    width=pygame.display.get_window_size()[0],
+    height=pygame.display.get_window_size()[1],
+    theme=themes.THEME_DARK
+)
+# Change UI theme
+themes.THEME_DARK.background_color = (30, 30, 40) # Dark background
+themes.THEME_DARK.title_font_color = (255, 255, 255) # White text for title
+themes.THEME_DARK.widget_font_color = (200, 200, 200) # Light grey text for widgets
+themes.THEME_DARK.selection_color = (100, 150, 200) # Blue colour for selection
+themes.THEME_DARK.border_color = (50, 50, 60) # Dark border
+themes.THEME_DARK.widget_font = pygame_menu.font.FONT_COMIC_NEUE
+themes.THEME_DARK.widget_font_shadow = True
+themes.THEME_DARK.title_font_size = 18
+themes.THEME_DARK.widget_font_size = 20
+themes.THEME_DARK.widget_font_shadow = True
+
+def toggle_input(INPUTS:list):
+    for input_ in INPUTS :
+        if input_.is_visible():
+            input_.hide()
+        else:
+            input_.show()
 
 def Set(root, Name, Value):
     SetValueToSetting(root, Name, Value, Load_Data_Setting())
