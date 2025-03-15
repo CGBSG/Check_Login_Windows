@@ -7,6 +7,39 @@ from tkinter import Tk, Button, Label
 from tkinter.filedialog import askdirectory
 import json
 
+def Install_Program():
+    if "LOG_Program_Cactus_Black" not in os.listdir("C:/") :
+        os.mkdir("C:/LOG_Program_Cactus_Black")
+    else:
+        if "Setting.Cactus_Black" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
+            Load_Data_Setting()
+        if "Install.ini" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
+            Install = open("C:/LOG_Program_Cactus_Black/Install.ini", "w")
+            Install.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
+        if "License.ini" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
+            License = open("C:/LOG_Program_Cactus_Black/License.ini", "w")
+            License.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
+        if "TimeLog.Cactus_Black" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
+            TimeLog = open("C:/LOG_Program_Cactus_Black/TimeLog.Cactus_Black", "w")
+        if "ErrorLog.Cactus_Black" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
+            ErrorLog = open("C:/LOG_Program_Cactus_Black/ErrorLog.Cactus_Black", "w")
+        if "DataBase.Cactus_Black" not in os.listdir("C:/LOG_Program_Cactus_Black/") :
+            DataBase = open("C:/LOG_Program_Cactus_Black/DataBase.Cactus_Black", "w")
+            DataBase.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
+        if "ScreenRecords" not in os.listdir("C:/LOG_Program_Cactus_Black/"):
+            os.mkdir("C:/LOG_Program_Cactus_Black/AudiuRecords")
+        if "AudiuRecords" not in os.listdir("C:/LOG_Program_Cactus_Black/"):
+            os.mkdir("C:/LOG_Program_Cactus_Black/AudiuRecords")
+        Install.close()
+        License.close()
+        TimeLog.close()
+        ErrorLog.close()
+        DataBase.close()
+        Install_Program()
+    Install_Program()
+
+Install_Program()
+
 def get_folder_size(folder_path):
     total_size = 0
     for dirpath, dirnames, filenames in os.walk(folder_path):
@@ -185,8 +218,8 @@ SIZE_TEXT = menu.add.label("Size Folder Data : "+Directory_SIZE)
 menu.add.label("")
 # Create a horizontal frame for the last three buttons
 button_frame = menu.add.frame_h(width=300, height=50, background_color=(50, 50, 60))
-button_frame.pack(menu.add.button("Exit", lambda: pygame_menu.events.EXIT),background_color=(255,0,0))
-button_frame.pack(menu.add.button("Save & Exit", lambda: save(True)),background_color=(0,255,0))
+button_frame.pack(menu.add.button("Exit", lambda: pygame_menu.events.EXIT,background_color=(255,0,0)))
+button_frame.pack(menu.add.button("Save & Exit", lambda: save(True),background_color=(0,255,0)))
 button_frame.pack(menu.add.button("Apply", lambda: save(False),background_color=(0,255,0)))
 
 toggle_input([TOKEN_BOT,TOKEN_BOT_Title,Chat_Id,Chat_Id_Title])
